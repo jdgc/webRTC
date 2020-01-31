@@ -24,6 +24,10 @@ type Message struct {
 		TcpType          string `json:"tcpType"`
 		UsernameFragment string `json:"usernameFragment"`
 	} `json:"ice"`
+	Sdp struct {
+		Type string `json:"type"`
+		Sdp  string `json:"sdp"`
+	} `json:"sdp"`
 }
 
 var clients = make(map[*websocket.Conn]bool)
@@ -81,6 +85,7 @@ func broadcastMessagesToClients() {
 				client.Close()
 				delete(clients, client)
 			}
+			fmt.Printf("sent broadcast: %v", message)
 		}
 	}
 }
