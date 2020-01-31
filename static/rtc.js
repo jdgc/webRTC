@@ -50,7 +50,7 @@ function gotMessageFromServer(message) {
    // ignore self originated messages
    if(signal.uuid === uuid) return;
 
-  if(signal.sdp && signal.sdp.type != '') {
+  if(signal.sdp.type == 'offer') {
     peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(() => {
       // only create answers in response to offers
       console.log('REMOTE DESCRIPTION SET');
