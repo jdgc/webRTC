@@ -58,7 +58,6 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	go echo(conn)
-	go broadcastMessagesToClients()
 }
 
 func echo(conn *websocket.Conn) {
