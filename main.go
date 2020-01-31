@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gorilla/websocket"
 	"log"
@@ -14,12 +15,12 @@ type Message struct {
 		Candidate        string `json:"candidate"`
 		SdpMid           string `json:"sdpMid,omitempty"`
 		SdpMLineIndex    int    `json:"sdpMLineIndex,omitempty"`
-		Protocol         string `json:"protocol,omitempty"`
 		Foundation       string `json:"foundation,omitempty"`
-		Priority         int    `json:"priority,omitempty"`
 		Component        string `json:"component,omitempty"`
-		Port             int    `json:"port,omitempty"`
+		Priority         int    `json:"priority,omitempty"`
 		Address          string `json:"address,omitempty"`
+		Protocol         string `json:"protocol,omitempty"`
+		Port             int    `json:"port,omitempty"`
 		Type             string `json:"type,omitempty"`
 		TcpType          string `json:"tcpType,omitempty"`
 		RelatedAddress   string `json:"relatedAddress,omitempty"`
@@ -70,6 +71,8 @@ func echo(conn *websocket.Conn) {
 		if err != nil {
 			fmt.Println("JSON read error", err)
 		}
+
+		fmt.Println(conn.ReadJSON())
 
 		fmt.Printf("Data received: %#v\n", message)
 		fmt.Printf("Clients: %#v", clients)
