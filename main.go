@@ -13,12 +13,12 @@ type Message struct {
 	Ice  struct {
 		Candidate        string `json:"candidate"`
 		SdpMid           string `json:"sdpMid"`
-		SdpMLineIndex    string `json:"sdpMLineIndex"`
+		SdpMLineIndex    int    `json:"sdpMLineIndex"`
 		Protocol         string `json:"protocol"`
 		Foundation       string `json:"foundation"`
-		Priority         string `json:"priority"`
+		Priority         int    `json:"priority"`
 		Component        string `json:"component"`
-		Port             string `json:"port"`
+		Port             int    `json:"port"`
 		Address          string `json:"address"`
 		Type             string `json:"type"`
 		TcpType          string `json:"tcpType"`
