@@ -50,7 +50,12 @@ function gotMessageFromServer(message) {
    // ignore self originated messages
    if(signal.uuid === uuid) return;
 
-  if(signal.sdp) {
+  if(signal.ice) {
+    console.log("Adding ICE candidate:", signal.ice);
+    peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice)).catch(err => {
+      console.log(err)
+    })
+  } else if(signal.sdp) {
     peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(() => {
       // only create answers in response to offers
       console.log('REMOTE DESCRIPTION SET');
@@ -60,11 +65,6 @@ function gotMessageFromServer(message) {
         })
       }
     }).catch(err => {
-      console.log(err)
-    })
-  } else if(signal.ice) {
-    console.log("Adding ICE candidate:", signal.ice);
-    peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice)).catch(err => {
       console.log(err)
     })
   }
