@@ -21,7 +21,7 @@ function pageReady() {
   localVideo = document.getElementById('localVideo');
   remoteVideo = document.getElementById('remoteVideo');
 
-  serverConnection = new WebSocket('wss://' + window.location.hostname + '/ws' + ':3000');
+  serverConnection = new WebSocket('wss://' + window.location.hostname + '/ws');
   serverConnection.onmessage = gotMessageFromServer;
 
   if(navigator.mediaDevices.getUserMedia) {
