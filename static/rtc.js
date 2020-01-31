@@ -96,7 +96,7 @@ function createdDescription(description) {
 
 function gotRemoteStream(event) {
   console.log('got remote stream', event.streams);
-  removeVideo.srcObject = event.streams[0];
+  remoteVideo.srcObject = event.streams[0];
 }
 
 function start(isCaller) {
