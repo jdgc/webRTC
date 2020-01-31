@@ -8,12 +8,17 @@ import (
 	"os"
 )
 
-type msg struct {
-	Num int
+type Message struct {
+	Uuid string `json:"uuid"`
+	Ice  string `json:"ice"`
 }
 
+var clients = make(map[*websocket.Conn]bool)
+var broadcast = make(chan Message)
+
 func main() {
-	port := os.Getenv("PORT")
+	port := getPort()
+
 	http.Handle("/", http.FileServer(http.Dir("./static")))
 	http.HandleFunc("/ws", websocketHandler)
 
@@ -40,7 +45,7 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 
 func echo(conn *websocket.Conn) {
 	for {
-		message := msg{}
+		message := Message{}
 
 		err := conn.ReadJSON(&message)
 		if err != nil {
@@ -48,5 +53,29 @@ func echo(conn *websocket.Conn) {
 		}
 
 		fmt.Printf("Data received: %#v\n", message)
+		broadcastMessagesToClients()
 	}
+}
+
+func broadcastMessagesToClients() {
+	for {
+		message := <-broadcast
+
+		for client := range clients {
+			err := client.WriteJSON(message)
+			if err != nil {
+				log.Printf("error occured writing message to client: %v", err)
+				client.Close()
+				delete(clients, client)
+			}
+		}
+	}
+}
+
+func getPort() string {
+	value := os.Getenv("PORT")
+	if len(value) == 0 {
+		return "3000"
+	}
+	return value
 }
