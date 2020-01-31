@@ -47,21 +47,23 @@ function gotMessageFromServer(message) {
    console.log("SDP?: ", signal.sdp)
    console.log("UUID: ", signal.uuid)
 
-   if(signal.sdp) {
-     peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(() => {
+  if(signal.sdp && signal.sdp.type != '') {
+    peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(() => {
       // only create answers in response to offers
       console.log('REMOTE DESCRIPTION SET');
       if(signal.sdp.type == 'offer') {
         peerConnection.createAnswer().then(createdDescription).catch(err => {
           console.log(err);
         })
-      } else if(signal.ice) {
-        peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice)).catch(err => {
-          console.log(err);
-        })
       }
-     })
-   }
+    }).catch(err => {
+      console.log(err)
+    })
+  } else if(signal.ice && signal.ice.candidate != '') {
+    peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice)).catch(err => {
+      console.log(err)
+    })
+  }
 }
 
 function gotIceCandidate(event) {
