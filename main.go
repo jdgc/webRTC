@@ -58,6 +58,7 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	go echo(conn)
+	go broadcastMessagesToClients()
 }
 
 func echo(conn *websocket.Conn) {
@@ -70,7 +71,6 @@ func echo(conn *websocket.Conn) {
 		}
 
 		fmt.Printf("Data received: %#v\n", message)
-		broadcastMessagesToClients()
 	}
 }
 
