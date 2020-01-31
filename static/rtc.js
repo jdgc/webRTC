@@ -47,6 +47,9 @@ function gotMessageFromServer(message) {
    console.log("SDP?: ", signal.sdp)
    console.log("UUID: ", signal.uuid)
 
+   // ignore self originated messages
+   if(signal.uuid === uuid) return;
+
   if(signal.sdp && signal.sdp.type != '') {
     peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(() => {
       // only create answers in response to offers
@@ -60,6 +63,7 @@ function gotMessageFromServer(message) {
       console.log(err)
     })
   } else if(signal.ice && signal.ice.candidate != '') {
+    console.log("Adding ICE candidate:", signal.ice);
     peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice)).catch(err => {
       console.log(err)
     })
