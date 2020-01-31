@@ -12,19 +12,19 @@ type Message struct {
 	Uuid string `json:"uuid"`
 	Ice  struct {
 		Candidate        string `json:"candidate"`
-		SdpMid           string `json:"sdpMid"`
-		SdpMLineIndex    int    `json:"sdpMLineIndex"`
-		Protocol         string `json:"protocol"`
-		Foundation       string `json:"foundation"`
-		Priority         int    `json:"priority"`
-		Component        string `json:"component"`
-		Port             int    `json:"port"`
-		Address          string `json:"address"`
-		Type             string `json:"type"`
-		TcpType          string `json:"tcpType"`
-		RelatedAddress   string `json:"relatedAddress"`
-		RelatedPort      int    `json:"relatedPort"`
-		UsernameFragment string `json:"usernameFragment"`
+		SdpMid           string `json:"sdpMid,omitempty"`
+		SdpMLineIndex    int    `json:"sdpMLineIndex,omitempty"`
+		Protocol         string `json:"protocol,omitempty"`
+		Foundation       string `json:"foundation,omitempty"`
+		Priority         int    `json:"priority,omitempty"`
+		Component        string `json:"component,omitempty"`
+		Port             int    `json:"port,omitempty"`
+		Address          string `json:"address,omitempty"`
+		Type             string `json:"type,omitempty"`
+		TcpType          string `json:"tcpType,omitempty"`
+		RelatedAddress   string `json:"relatedAddress,omitempty"`
+		RelatedPort      int    `json:"relatedPort,omitempty"`
+		UsernameFragment string `json:"usernameFragment,omitempty"`
 	} `json:"ice"`
 	Sdp struct {
 		Type string `json:"type"`
