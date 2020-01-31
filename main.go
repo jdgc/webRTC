@@ -49,7 +49,7 @@ func main() {
 
 func websocketHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Header.Get("Origin") != "https://"+r.Host {
-		log.Fatalf("ORIGIN not permitted: %s", r.Header.Get("Origin"))
+		log.Printf("ORIGIN not permitted: %s", r.Header.Get("Origin"))
 		http.Error(w, "Origin not permitted", 403)
 		return
 	}
@@ -70,9 +70,6 @@ func echo(conn *websocket.Conn) {
 		if err != nil {
 			fmt.Println("JSON read error", err)
 		}
-
-		fmt.Printf("Data received: %#v\n", message)
-		fmt.Printf("Clients: %#v", clients)
 
 		for client := range clients {
 			if err := client.WriteJSON(message); err != nil {

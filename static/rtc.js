@@ -19,7 +19,6 @@ const constraints = {
     audio: true
   }
 
-
 uuid = createUUID();
 
 function pageReady() {
