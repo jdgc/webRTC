@@ -71,15 +71,11 @@ func echo(conn *websocket.Conn) {
 
 		fmt.Printf("Current clients: %#v", clients)
 		fmt.Printf("Data received: %#v\n", message)
-		for client := range clients {
-			err := client.WriteJSON(message)
-			if err != nil {
-				log.Printf("error occured writing message to client: %v", err)
-				client.Close()
-				delete(clients, client)
-			}
-			fmt.Printf("sent broadcast: %v", message)
+		if err := conn.WriteJSON(message); err != nil {
+			log.Printf("error occured writing message to client: %v", err)
+			conn.Close()
 		}
+		fmt.Printf("sent broadcast: %v", message)
 	}
 }
 
