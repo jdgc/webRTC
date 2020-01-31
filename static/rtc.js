@@ -60,7 +60,7 @@ function gotMessageFromServer(message) {
       console.log(err)
     })
   } else if(signal.ice && signal.ice.candidate != '') {
-    peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice)).catch(err => {
+    peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice.candidate)).catch(err => {
       console.log(err)
     })
   }
