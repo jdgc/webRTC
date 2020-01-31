@@ -33,7 +33,6 @@ type Message struct {
 }
 
 var clients = make(map[*websocket.Conn]bool)
-var broadcast = make(chan Message)
 
 func main() {
 	port := getPort()
@@ -59,6 +58,7 @@ func websocketHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to open websocket connection", http.StatusBadRequest)
 	}
 
+	clients[conn] = true
 	go echo(conn)
 }
 
@@ -71,26 +71,13 @@ func echo(conn *websocket.Conn) {
 			fmt.Println("JSON read error", err)
 		}
 
-		fmt.Printf("Current clients: %#v", clients)
 		fmt.Printf("Data received: %#v\n", message)
-		if err := conn.WriteJSON(message); err != nil {
-			log.Printf("error occured writing message to client: %v", err)
-			conn.Close()
-		}
-		fmt.Printf("sent broadcast: %v", message)
-	}
-}
-
-func broadcastMessagesToClients() {
-	for {
-		message := <-broadcast
+		fmt.Printf("Clients: %#v", clients)
 
 		for client := range clients {
-			err := client.WriteJSON(message)
-			if err != nil {
+			if err := client.WriteJSON(message); err != nil {
 				log.Printf("error occured writing message to client: %v", err)
-				client.Close()
-				delete(clients, client)
+				conn.Close()
 			}
 			fmt.Printf("sent broadcast: %v", message)
 		}
