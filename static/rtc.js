@@ -46,7 +46,6 @@ function gotMessageFromServer(message) {
    console.log(signal)
    console.log("SDP?: ", signal.sdp)
    console.log("UUID: ", signal.uuid)
-   if(signal.uuid == uuid) return;
 
    if(signal.sdp) {
      peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(() => {
@@ -76,6 +75,7 @@ function createdDescription(description) {
   console.log('description received', description)
 
   peerConnection.setLocalDescription(description).then(() => {
+    console.log('description set...')
     serverConnection.send(JSON.stringify({'sdp': peerConnection.localDescription, 'uuid': uuid}))
   }).catch(err => {
     console.log(err)
@@ -83,7 +83,7 @@ function createdDescription(description) {
 }
 
 function gotRemoteStream(event) {
-  console.log('got remote stream');
+  console.log('got remote stream', event.streams);
   removeVideo.srcObject = event.streams[0];
 }
 
