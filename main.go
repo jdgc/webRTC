@@ -25,11 +25,11 @@ type Message struct {
 		RelatedAddress   string `json:"relatedAddress,omitempty"`
 		RelatedPort      int    `json:"relatedPort,omitempty"`
 		UsernameFragment string `json:"usernameFragment,omitempty"`
-	} `json:"ice"`
+	} `json:"ice,omitempty"`
 	Sdp struct {
 		Type string `json:"type"`
 		Sdp  string `json:"sdp"`
-	} `json:"sdp"`
+	} `json:"sdp,omitempty"`
 }
 
 var clients = make(map[*websocket.Conn]bool)
