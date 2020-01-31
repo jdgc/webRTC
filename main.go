@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/websocket"
+	"log"
 	"net/http"
 )
 
@@ -17,7 +18,10 @@ func main() {
 	http.HandleFunc("/ws", websocketHandler)
 
 	fmt.Printf("Server started on port %d\n", port)
-	panic(http.ListenAndServe(":3000", nil))
+	err := http.ListenAndServe(":3000", nil)
+	if err != nil {
+		log.Fatal("ListenAndServe Error: ", err)
+	}
 }
 
 func websocketHandler(w http.ResponseWriter, r *http.Request) {
