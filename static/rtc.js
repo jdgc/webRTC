@@ -15,8 +15,10 @@ const constraints = {
     audio: true
   }
 
+
+uuid = createUUID();
+
 function pageReady() {
-  uuid = createUUID();
 
   localVideo = document.getElementById('localVideo');
   remoteVideo = document.getElementById('remoteVideo');
@@ -50,12 +52,12 @@ function gotMessageFromServer(message) {
    // ignore self originated messages
    if(signal.uuid === uuid) return;
 
-  if(signal.ice) {
+  if(signal.ice && signal.ice.candidate != '') {
     console.log("Adding ICE candidate:", signal.ice);
     peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice)).catch(err => {
       console.log(err)
     })
-  } else if(signal.sdp) {
+  } else if(signal.sdp && signal.sdp.type != '') {
     peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(() => {
       // only create answers in response to offers
       console.log('REMOTE DESCRIPTION SET');
