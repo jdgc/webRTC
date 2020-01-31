@@ -26,6 +26,7 @@ func main() {
 
 func websocketHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Header.Get("Origin") != "http://"+r.Host {
+		log.Fatalf("ORIGIN not permitted: %s", r.Header.Get("Origin"))
 		http.Error(w, "Origin not permitted", 403)
 		return
 	}
