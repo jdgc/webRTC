@@ -39,15 +39,19 @@ function getUserMediaSuccess(stream) {
 }
 
 function gotMessageFromServer(message) {
+  console.log('GOT MESSAGE FROM SERVER: ', message)
   if(!peerConnection) start(false);
 
    const signal = JSON.parse(message.data);
    console.log(signal)
+   console.log("SDP?: ", signal.sdp)
+   console.log("UUID: ", signal.uuid)
    if(signal.uuid == uuid) return;
 
    if(signal.sdp) {
      peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(() => {
       // only create answers in response to offers
+      console.log('REMOTE DESCRIPTION SET');
       if(signal.sdp.type == 'offer') {
         peerConnection.createAnswer().then(createdDescription).catch(err => {
           console.log(err);
