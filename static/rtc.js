@@ -6,7 +6,7 @@ let peerConnection
 let peerConnectionConfig = {
   'iceServers': [
     {'url': 'stun:stun.stunprotocol.org:3478'},
-    {'url': 'stun:stun.1.google.com:19302'}
+    {'url': 'stun:stun.l.google.com:19302'}
   ]
 }
 
@@ -52,12 +52,12 @@ function gotMessageFromServer(message) {
    // ignore self originated messages
    if(signal.uuid === uuid) return;
 
-  if(signal.ice && signal.ice.candidate != '') {
+  if(signal.ice && signal.ice.candidate) {
     console.log("Adding ICE candidate:", signal.ice);
     peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice)).catch(err => {
       console.log(err)
     })
-  } else if(signal.sdp && signal.sdp.type != '') {
+  } else if(signal.sdp && signal.sdp.type) {
     peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(() => {
       // only create answers in response to offers
       console.log('REMOTE DESCRIPTION SET');
