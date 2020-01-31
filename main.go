@@ -10,7 +10,20 @@ import (
 
 type Message struct {
 	Uuid string `json:"uuid"`
-	Ice  string `json:"ice"`
+	Ice  struct {
+		Candidate        string `json:"candidate"`
+		SdpMid           string `json:"sdpMid"`
+		SdpMLineIndex    string `json:"sdpMLineIndex"`
+		Protocol         string `json:"protocol"`
+		Foundation       string `json:"foundation"`
+		Priority         string `json:"priority"`
+		Component        string `json:"component"`
+		Port             string `json:"port"`
+		Address          string `json:"address"`
+		Type             string `json:"type"`
+		TcpType          string `json:"tcpType"`
+		UsernameFragment string `json:"usernameFragment"`
+	} `json:"ice"`
 }
 
 var clients = make(map[*websocket.Conn]bool)
