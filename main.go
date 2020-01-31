@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/gorilla/websocket"
 	"log"
@@ -71,8 +70,6 @@ func echo(conn *websocket.Conn) {
 		if err != nil {
 			fmt.Println("JSON read error", err)
 		}
-
-		fmt.Println(conn.ReadJSON())
 
 		fmt.Printf("Data received: %#v\n", message)
 		fmt.Printf("Clients: %#v", clients)
