@@ -7,6 +7,10 @@ let peerConnectionConfig = {
   'iceServers': [
     {'url': 'stun:stun.stunprotocol.org:3478'},
     {'url': 'stun:stun.l.google.com:19302'}
+  ],
+  'turnServers': [
+    {'url': 'turn:turn01.hubl.in?transport=udp'},
+    {'url': 'turn:turn02.hubl.in?transport=tcp'}
   ]
 }
 
