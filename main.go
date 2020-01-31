@@ -5,20 +5,20 @@ import (
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
+	"os"
 )
 
 type msg struct {
 	Num int
 }
 
-const port = 3000
-
 func main() {
+	port := os.Getenv("PORT")
 	http.Handle("/", http.FileServer(http.Dir("./static")))
 	http.HandleFunc("/ws", websocketHandler)
 
-	fmt.Printf("Server started on port %d\n", port)
-	err := http.ListenAndServe(":3000", nil)
+	fmt.Printf("Server started on port %s\n", port)
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe Error: ", err)
 	}
