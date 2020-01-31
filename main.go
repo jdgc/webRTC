@@ -22,6 +22,8 @@ type Message struct {
 		Address          string `json:"address"`
 		Type             string `json:"type"`
 		TcpType          string `json:"tcpType"`
+		RelatedAddress   string `json:"relatedAddress"`
+		RelatedPort      int    `json:"relatedPort"`
 		UsernameFragment string `json:"usernameFragment"`
 	} `json:"ice"`
 	Sdp struct {
